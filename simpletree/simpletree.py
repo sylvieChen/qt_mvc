@@ -67,9 +67,9 @@ class TreeNode(object):
     def __repr__(self):
         return self.log()
 #
-class SceneGraphModel(QtCore.QAbstractItemModel):
+class TreeModel(QtCore.QAbstractItemModel):
     def __init__(self, root, parent=None):
-        super(SceneGraphModel, self).__init__(parent)
+        super(TreeModel, self).__init__(parent)
         self._rootnode = root
 
     def rowCount(self, parent=QtCore.QModelIndex):
@@ -102,7 +102,7 @@ class SceneGraphModel(QtCore.QAbstractItemModel):
     def headerData(self, section, orientation, role):
         if role == QtCore.Qt.DisplayRole:
             if section == 0:
-                return 'Scenegraph'
+                return 'Node'
             else:
                 return 'TYPE'
 
@@ -188,16 +188,16 @@ if __name__ == '__main__':
     tree_view = QtGui.QTreeView()
     tree_view.show()
 
-    scene_model = SceneGraphModel(rootnode)
-    tree_view.setModel(scene_model)
+    model = TreeModel(rootnode)
+    tree_view.setModel(model)
 
     # insert/remove node as child of root node
-    scene_model.insertRows(0, 3)
-    scene_model.removeRows(0, 1)
+    model.insertRows(0, 3)
+    model.removeRows(0, 1)
 
     # insert node as child of body node
-    body_index = scene_model.index(3, 0, QtCore.QModelIndex())
-    scene_model.insertRows(0, 3, body_index)
+    body_index = model.index(3, 0, QtCore.QModelIndex())
+    model.insertRows(0, 3, body_index)
 
 
     sys.exit(app.exec_())
